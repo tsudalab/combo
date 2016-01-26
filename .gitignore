@@ -1,0 +1,6 @@
+.DS_Store
+*~
+build/
+installed
+.pyc
+.ipynb_checkpoint
