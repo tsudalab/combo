@@ -10,6 +10,7 @@ class res:
         self.nsearch = 0
         self.queries = np.zeros( max_iter )
         self.ttrain = np.empty(0)
+        self.query_time = np.zeros( max_iter )
         self.best_ttrain = np.zeros( max_iter )
         self.best_t = - np.inf
         self.directory = directory

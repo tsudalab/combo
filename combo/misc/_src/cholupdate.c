@@ -1161,7 +1161,7 @@ static char __pyx_k_RuntimeError[] = "RuntimeError";
 static char __pyx_k_cholupdate64[] = "cholupdate64";
 static char __pyx_k_combo_misc__src_cholupdate[] = "combo.misc._src.cholupdate";
 static char __pyx_k_ndarray_is_not_C_contiguous[] = "ndarray is not C contiguous";
-static char __pyx_k_Users_tsuyos_u_Git_combo_combo[] = "/Users/tsuyos-u/Git/combo/combo/misc/_src/cholupdate.pyx";
+static char __pyx_k_Users_tsuyos_u_Codes_combo_comb[] = "/Users/tsuyos-u/Codes/combo/combo/misc/_src/cholupdate.pyx";
 static char __pyx_k_unknown_dtype_code_in_numpy_pxd[] = "unknown dtype code in numpy.pxd (%d)";
 static char __pyx_k_Format_string_allocated_too_shor[] = "Format string allocated too short, see comment in numpy.pxd";
 static char __pyx_k_Non_native_byte_order_not_suppor[] = "Non-native byte order not supported";
@@ -1174,7 +1174,7 @@ static PyObject *__pyx_n_s_L;
 static PyObject *__pyx_n_s_N;
 static PyObject *__pyx_kp_u_Non_native_byte_order_not_suppor;
 static PyObject *__pyx_n_s_RuntimeError;
-static PyObject *__pyx_kp_s_Users_tsuyos_u_Git_combo_combo;
+static PyObject *__pyx_kp_s_Users_tsuyos_u_Codes_combo_comb;
 static PyObject *__pyx_n_s_ValueError;
 static PyObject *__pyx_n_s_c;
 static PyObject *__pyx_n_s_cholupdate64;
@@ -3680,7 +3680,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_N, __pyx_k_N, sizeof(__pyx_k_N), 0, 0, 1, 1},
   {&__pyx_kp_u_Non_native_byte_order_not_suppor, __pyx_k_Non_native_byte_order_not_suppor, sizeof(__pyx_k_Non_native_byte_order_not_suppor), 0, 1, 0, 0},
   {&__pyx_n_s_RuntimeError, __pyx_k_RuntimeError, sizeof(__pyx_k_RuntimeError), 0, 0, 1, 1},
-  {&__pyx_kp_s_Users_tsuyos_u_Git_combo_combo, __pyx_k_Users_tsuyos_u_Git_combo_combo, sizeof(__pyx_k_Users_tsuyos_u_Git_combo_combo), 0, 0, 1, 0},
+  {&__pyx_kp_s_Users_tsuyos_u_Codes_combo_comb, __pyx_k_Users_tsuyos_u_Codes_combo_comb, sizeof(__pyx_k_Users_tsuyos_u_Codes_combo_comb), 0, 0, 1, 0},
   {&__pyx_n_s_ValueError, __pyx_k_ValueError, sizeof(__pyx_k_ValueError), 0, 0, 1, 1},
   {&__pyx_n_s_c, __pyx_k_c, sizeof(__pyx_k_c), 0, 0, 1, 1},
   {&__pyx_n_s_cholupdate64, __pyx_k_cholupdate64, sizeof(__pyx_k_cholupdate64), 0, 0, 1, 1},
@@ -3799,7 +3799,7 @@ static int __Pyx_InitCachedConstants(void) {
   __pyx_tuple__7 = PyTuple_Pack(10, __pyx_n_s_L, __pyx_n_s_x, __pyx_n_s_N, __pyx_n_s_c, __pyx_n_s_r, __pyx_n_s_s, __pyx_n_s_eps, __pyx_n_s_k, __pyx_n_s_i, __pyx_n_s_x2); if (unlikely(!__pyx_tuple__7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 26; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_tuple__7);
   __Pyx_GIVEREF(__pyx_tuple__7);
-  __pyx_codeobj__8 = (PyObject*)__Pyx_PyCode_New(2, 0, 10, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__7, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_Users_tsuyos_u_Git_combo_combo, __pyx_n_s_cholupdate64, 26, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 26; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_codeobj__8 = (PyObject*)__Pyx_PyCode_New(2, 0, 10, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__7, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_Users_tsuyos_u_Codes_combo_comb, __pyx_n_s_cholupdate64, 26, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 26; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_RefNannyFinishContext();
   return 0;
   __pyx_L1_error:;

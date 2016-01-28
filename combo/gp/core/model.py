@@ -71,6 +71,7 @@ class model:
         elif method == 'BFGS':
             ndata = X.shape[0]
             subN = int(options.get('subN_learn', ndata))
+            max_iter = int(options.get('max_iter', 200))
             disp = options.get( 'disp', False )
             subN = min(subN, ndata)
             if subN != ndata:
@@ -80,10 +81,12 @@ class model:
                 subt = t
 
             args = ( subX, subt )
-            bounds = [( np.log(1e-5) , np.log(1e5) )  for i in range(0, self.nparams)]
+            bounds = [ (np.log(1e-5), np.log(1e5)) ]
+            bounds.append( (-np.inf, np.inf) )
+            bounds.extend( [( np.log(1e-5) , np.log(1e5) )  for i in range(0, self.prior.cov.nparams)])
             res = scipy.optimize.minimize(fun = self.eval_marlik,
                              x0=self.params, args=args,  bounds = bounds, method='L-BFGS-B',
-                              jac = self.get_grad_marlik, options={'gtol': 1e-4, 'disp': disp})
+                              jac = self.get_grad_marlik, options={'gtol': 1e-4,'maxiter': max_iter, 'disp': disp})
             params = res.x
 
         else:

@@ -1,4 +1,5 @@
 import numpy as np
+import time
 from res import res
 import blm_score
 
@@ -54,7 +55,7 @@ class bayes:
             Xtest = np.delete( Xtest, tmp, 0 )
             self.candidates = np.delete( self.candidates , tmp )
             self.display(n)
-
+            self.res.query_time[n] = 0
         return Xtrain, Xtest
 
     def blm_search( self, gp, Xtest, Xtrain ):
@@ -71,6 +72,7 @@ class bayes:
         blm.comp_stats( Xtrain, self.res.ttrain, Psi = Psi_train )
 
         for n in xrange( self.nburn_in, self.max_iter ):
+            st = time.time()
             if self.score == 'TS':
                 score = blm_score.TS( blm, Xtest, Psi_test  )
             tmp = np.argmax( score )
@@ -104,6 +106,8 @@ class bayes:
                 nlearn += 1
             else:
                 blm.update_stats( x, t, psi)
+
+            self.res.query_time[n] = time.time()-st
 
 
     def display( self, n ):

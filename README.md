@@ -9,6 +9,7 @@ COMmon Bayesian Optimization Library ( COMBO )
 * Cython >= 0.22.1
 * mpi4py >= 2.0 (optional)
 
+
 # Install ######################################
 	1. Download or clone the github repository, e.g.
 		> git clone http://git.tsudalab.org/tsuyos-u/combo.git
