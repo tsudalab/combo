@@ -125,7 +125,7 @@ class bayes:
         self.nbasis = options.get('nbasis', 5000)
         self.score = options.get('score', 'TS')
         self.max_iter = options.get('max_iter', 500)
-        self.directory = options.get('directory', 'res')
+        self.directory = options.get('directory_name', 'res')
         self.disp = options.get('disp', True)
         self.reset_init_params = options.get('reset_init_params', None )
 
