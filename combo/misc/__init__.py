@@ -1,5 +1,7 @@
 from centering  import centering
 from gauss_elim import gauss_elim
+from parse_config import parse_config
+from set_config import set_config
 from _src.diagAB import diagAB_64 as diagAB
 from _src.traceAB import traceAB2_64 as traceAB2
 from _src.traceAB import traceAB3_64 as traceAB3

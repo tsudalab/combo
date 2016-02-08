@@ -1,37 +1,45 @@
-try:
-    import cPickle as pickle
-except:
-    import pickle
+import cPickle as pickle
 import os
 import numpy as np
 
 class res:
-    def __init__( self, max_iter, directory = 'res', options = () ):
-        self.nsearch = 0
-        self.queries = np.zeros( max_iter )
-        self.ttrain = np.empty(0)
-        self.query_time = np.zeros( max_iter )
-        self.best_ttrain = np.zeros( max_iter )
-        self.best_t = - np.inf
-        self.directory = directory
-        self.options = options
+    def __init__( self, config ):
+        self.config = config
+        self._max_search = config.search.max_search
+        self._num_search_step = 0
+        self._max_t = -np.inf
+        self.max_fx = np.zeros( self._max_search )
+        self.search_time = np.zeros( self._max_search )
+        self.learning_time = np.zeros( self._max_search )
+        self.infer_time = np.zeros( self._max_search )
+        self.full_time = np.zeros( self._max_search )
+        self.simu_time = np.zeros( self._max_search )
+        self.fx = np.zeros( self._max_search )
+        self.history_action = np.zeros( self._max_search )
+        self.dir_name = config.search.dir_name
+        self.make_dir( config )
 
-        if not os.path.isdir(self.directory):
-            os.mkdir( directory )
+    def make_dir( self, config ):
+        ''' make the directory which memorizes the search results '''
+        if not os.path.isdir( self.dir_name ):
+            os.mkdir( self.dir_name )
 
-    def set_ttrain( self, ttrain ):
-        self.ttrain = ttrain
+    def write( self, t, action ):
+        self.fx[ self._num_search_step ] = t
+        self.history_action[ self._num_search_step ] = action
 
-    def write( self, query, t ):
-        self.queries[ self.nsearch ] = query
-        self.ttrain = np.append( self.ttrain, t )
-        if t> self.best_t:
-            self.best_t = t
-        self.best_ttrain[ self.nsearch ] = self.best_t
-        self.nsearch +=1
+        if t > self._max_t:
+            self._max_t = t
 
-    def save( self, process = 0 ):
-        filename = self.directory + '/res_bayes_search%03d.txt' %( process )
-        f = open(filename,'w')
-        pickle.dump( self, f )
-        f.close()
+        self.max_fx[ self._num_search_step ] = self._max_t
+        self._num_search_step += 1
+
+    def print_search_res( self, num_search ):
+        print '%03d-th step: f(x) = %f, max_f(x) = %f \n' \
+                        %( num_search +1, self.fx[num_search], self.max_fx[num_search] )
+
+    def save( self, file_name ):
+        dir_name = self.config.search.dir_name
+        file_name = dir_name + '/' + file_name + '.dump'
+        with open( file_name, 'w' ) as f:
+            pickle.dump( self, f )

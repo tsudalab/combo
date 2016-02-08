@@ -11,9 +11,9 @@ class model:
         self._set_options( options )
         self.stats = ()
 
-    def comp_stats( self, X, t, Psi = None ):
+    def prepare( self, X, t, Psi = None ):
         if self.method is 'exact':
-            inf.exact.comp_stats( blm = self, X = X, t = t, Psi = Psi )
+            inf.exact.prepare( blm = self, X = X, t = t, Psi = Psi )
         else:
             pass
 
@@ -40,6 +40,12 @@ class model:
         else:
             pass
         return w_hat
+
+    def post_sampling( self, Xtest, Psi = None):
+        if Psi is None:
+            Psi = blm.lik.get_basis( Xtest )
+        w_hat = self.sampling()
+        return Psi.dot( w_hat ) + self.lik.linear.bias
 
     def get_post_fcov( self, X, Psi = None, diag = True ):
         if self.method is 'exact':

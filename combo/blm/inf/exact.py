@@ -2,7 +2,7 @@ import numpy as np
 import scipy
 from ... import misc
 
-def comp_stats( blm, X, t, Psi = None ):
+def prepare( blm, X, t, Psi = None ):
     if Psi is None:
         Psi= blm.lik.get_basis( X )
     PsiT = Psi.transpose()
