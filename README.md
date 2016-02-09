@@ -174,3 +174,6 @@ print res.best_ttrain
 f.close()
 
 ```   
+
+## Licence
+[MIT](https://github.com/tcnksm/tool/blob/master/LICENCE)
