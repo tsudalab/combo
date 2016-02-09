@@ -195,3 +195,4 @@ class bayes_policy( policy ):
             else:
                 file_name = 'bayes_search_%03d' %( self.seed )
         self.res.save( file_name )
+        

@@ -16,7 +16,7 @@ class batch( object ):
             is_init_params_search = True
         else:
             is_init_params_search = False
-            
+
 
         if is_init_params_search:
             params = self.init_params_search( sub_X, sub_t )
@@ -56,6 +56,7 @@ class batch( object ):
                 min_marlik = marlik
                 min_params = params
 
+        print 'minimum marginal likelihood = ', min_marlik
         return min_params
 
 
@@ -154,6 +155,8 @@ class online( object ):
             if min_marlik > marlik:
                 min_marlik = marlik
                 min_params = params
+
+        print 'minimum marginal likelihood = ', min_marlik
         return min_params
 
     def get_one_update( self, params, X, t ):

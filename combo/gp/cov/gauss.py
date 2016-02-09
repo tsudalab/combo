@@ -60,7 +60,7 @@ class gauss:
 
         grad = np.zeros((self.num_params, num_data, num_data))
         if self.ard:
-            grad[0:self.nparams-1,:,:] = grad_width64(X, width, G)
+            grad[0:self.num_params-1,:,:] = grad_width64(X, width, G)
         else:
             pairwise_dists = spatial.distance.pdist( X/width, 'euclidean' )
             grad[0,:,:] = G * spatial.distance.squareform( pairwise_dists**2 )
@@ -173,7 +173,7 @@ class gauss:
             # with ARD
             width = np.zeros( self.num_dim )
             scale = np.std( t )
-            u = np.random.uniform( 0.4, 0.8 )
+            u = np.random.uniform( 0.3, 0.9 )
             width = u * ( np.max( X, 0 ) - np.min( X, 0 ) ) * np.sqrt( self.num_dim )
 
             params = np.append( np.log( width ), np.log( scale ) )

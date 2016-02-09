@@ -21,7 +21,7 @@ class policy( object ):
             self.train_t = np.empty( 0 )
 
     def set_seed( self, seed ):
-        self.seed = 0
+        self.seed = seed
         np.random.seed( seed )
 
     def add_data( self, t, x ):
