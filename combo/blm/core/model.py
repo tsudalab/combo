@@ -34,17 +34,17 @@ class model:
             pass
         return fmu
 
-    def sampling( self, w_mu = None, N = 1 ):
+    def sampling( self, w_mu = None, N = 1, alpha = 1.0 ):
         if self.method is 'exact':
-            w_hat = inf.exact.sampling( self, w_mu, N )
+            w_hat = inf.exact.sampling( self, w_mu, N, alpha= alpha )
         else:
             pass
         return w_hat
 
-    def post_sampling( self, Xtest, Psi = None):
+    def post_sampling( self, Xtest, Psi = None, alpha = 1.0):
         if Psi is None:
             Psi = blm.lik.get_basis( Xtest )
-        w_hat = self.sampling()
+        w_hat = self.sampling(alpha = alpha)
         return Psi.dot( w_hat ) + self.lik.linear.bias
 
     def get_post_fcov( self, X, Psi = None, diag = True ):

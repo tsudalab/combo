@@ -23,13 +23,13 @@ def update_stats( blm, x, t, psi = None ):
     alpha = misc.gauss_elim( L, b )
     return ( L, b, alpha )
 
-def sampling( blm, w_mu = None, N=1 ):
+def sampling( blm, w_mu = None, N=1, alpha = 1.0 ):
     if w_mu is None:
         w_mu = get_post_params_mean( blm )
     if N==1:
-        z = np.random.randn( blm.nbasis )
+        z = np.random.randn( blm.nbasis ) * alpha
     else:
-        z = np.random.randn( blm.nbasis, N )
+        z = np.random.randn( blm.nbasis, N ) * alpha
 
     L = blm.stats[0]
     invLz = scipy.linalg.solve_triangular( L, z, \

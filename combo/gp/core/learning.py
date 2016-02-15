@@ -56,7 +56,7 @@ class batch( object ):
                 min_marlik = marlik
                 min_params = params
 
-        print 'minimum marginal likelihood = ', min_marlik
+        #print 'minimum marginal likelihood = ', min_marlik
         return min_params
 
 
@@ -75,15 +75,15 @@ class online( object ):
 
 
         if is_init_params_search:
-            print 'start the initial parameter search ...'
+            print 'Start the initial hyper parameter searching ...'
             params = self.init_params_search( X, t )
-            print 'finish the initial parameter search \n'
+            print 'Done\n'
         else:
             params = np.copy( self.params )
 
-        print 'satrt the hyper parameter learning ...'
+        print 'Start the hyper parameter learning ...'
         params = self.one_run( params, X, t )
-        print 'finish the initial parameter search'
+        print 'Done\n'
 
         return params
 
@@ -156,7 +156,7 @@ class online( object ):
                 min_marlik = marlik
                 min_params = params
 
-        print 'minimum marginal likelihood = ', min_marlik
+        #print 'minimum marginal likelihood = ', min_marlik
         return min_params
 
     def get_one_update( self, params, X, t ):

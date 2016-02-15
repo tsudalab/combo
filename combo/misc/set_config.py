@@ -52,6 +52,7 @@ class search:
         self.score = 'TS'
         self.max_search = 100
         self.num_rand_search = 20
+        self.alpha = 1.0
 
     def load( self, config ):
         temp_dict = config._sections['search']
@@ -60,6 +61,7 @@ class search:
         self.score = temp_dict.get( 'score', 'TS')
         self.max_search = int( temp_dict.get( 'max_search', 500 ) )
         self.num_rand_search = int( temp_dict.get( 'num_rand_search', 50 ) )
+        self.alpha = np.float64( temp_dict.get( 'alpha', 1.0 ) )
 
     def show( self ):
         print '( search )'
@@ -67,6 +69,7 @@ class search:
         print 'score: ' + self.score
         print 'max_search:', self.max_search
         print 'num_rand_search: ', self.num_rand_search
+        print 'alpha: ', self.alpha
         print '\n'
 
 class predict:

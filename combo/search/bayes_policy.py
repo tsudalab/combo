@@ -5,20 +5,22 @@ from policy import policy
 
 class bayes_policy( policy ):
     def __init__( self, simu, test_X, config ):
-        super( bayes_policy, self).__init__( simu, test_X, config )
+        super( bayes_policy, self ).__init__( simu, test_X, config )
 
     def run( self, gp, timing = None, train_X = None, train_t = None, file_name = None ):
         self.set_init_train_data( train_X, train_t)
-        print 'start the random search .....\n'
+        print 'Start the random search .....\n'
         self.rand_search( self.config.search.num_rand_search )
-
-        print 'start the bayes search ....\n'
+        print 'Done.\n '
+        print 'Start the bayes search ....\n'
         if self.config.predict.is_rand_expans:
             self.blm_search( gp, timing )
         else:
             self.gp_search(  gp, timing )
-
+        print 'Done.\n '
+        print 'Save...'
         self.save( file_name )
+        print 'Done. \n '
 
     def blm_search( self, gp, timing = None ):
         timing = self.gen_timing( timing )
@@ -30,7 +32,6 @@ class bayes_policy( policy ):
                 st_learn_time = time.time()
                 gp.fit( self.train_X, self.train_t, self.config)
                 self.res.learning_time[n] = time.time() - st_learn_time
-
                 st_infer_time = time.time()
                 blm = gp.export_blm( self.config.predict.num_basis )
                 self.train_Psi = blm.lik.get_basis( self.train_X )
@@ -177,7 +178,7 @@ class bayes_policy( policy ):
             score = temp1 * scipy.stats.norm.cdf( temp2 ) + post_fstd * scipy.stats.norm.pdf(temp2)
             action = np.argmax(score)
         elif score == 'TS':
-            score = blm.post_sampling( self.test_X, Psi = self.test_Psi )
+            score = blm.post_sampling( self.test_X, Psi = self.test_Psi, alpha = self.config.search.alpha )
             action = np.argmax( score )
         else:
             raise NotImplementedError
