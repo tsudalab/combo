@@ -38,6 +38,14 @@ class bayes_policy( policy ):
                 blm.prepare( self.train_X, self.train_t, self.train_Psi )
                 self.res.infer_time[n] = time.time() - st_infer_time
                 num_temp += 1
+        else:
+            st_infer_time = time.time()
+            blm = gp.export_blm( self.config.predict.num_basis )
+            self.train_Psi = blm.lik.get_basis( self.train_X )
+            self.test_Psi = blm.lik.get_basis( self.test_X )
+            blm.prepare( self.train_X, self.train_t, self.train_Psi )
+            self.res.infer_time[n] = time.time() - st_infer_time
+
 
         for n in xrange( self.config.search.num_rand_search, self.config.search.max_search ):
             st_full_time = time.time()
@@ -195,4 +203,3 @@ class bayes_policy( policy ):
             else:
                 file_name = 'bayes_search_%03d' %( self.seed )
         self.res.save( file_name )
-        
