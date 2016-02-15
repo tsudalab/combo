@@ -1,5 +1,11 @@
 COMmon Bayesian Optimization Library ( COMBO )
 ========
+Bayesian optimization has been proven as an effective tool in accelerating scientific discovery.
+A standard implementation (e.g., scikit-learn), however,
+can accommodate only small training data.
+COMBO is highly scalable due to an efficient protocol that employs
+Thompson sampling, random feature maps, one-rank Cholesky update and
+automatic hyperparameter tuning.
 
 
 # Required Packages ############################
