@@ -5,7 +5,7 @@ A standard implementation (e.g., scikit-learn), however,
 can accommodate only small training data.
 COMBO is highly scalable due to an efficient protocol that employs
 Thompson sampling, random feature maps, one-rank Cholesky update and
-automatic hyperparameter tuning.
+automatic hyperparameter tuning. Technical features are described in [our document](/docs/combo_document.pdf). 
 
 
 # Required Packages ############################
