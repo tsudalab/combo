@@ -25,11 +25,16 @@ class res:
             os.mkdir( self.dir_name )
 
     def write( self, t, action ):
-        self.fx[ self._num_search_step ] = t
+        if hasattr(t,'__len__') and len(t)!=1:
+            tmp_t = t[0]
+        else:
+            tmp_t = t
+
+        self.fx[ self._num_search_step ] = tmp_t
         self.history_action[ self._num_search_step ] = action
 
-        if t > self._max_t:
-            self._max_t = t
+        if tmp_t > self._max_t:
+            self._max_t = tmp_t
 
         self.max_fx[ self._num_search_step ] = self._max_t
         self._num_search_step += 1
