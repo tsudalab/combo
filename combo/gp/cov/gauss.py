@@ -173,9 +173,11 @@ class gauss:
             # with ARD
             width = np.zeros( self.num_dim )
             scale = np.std( t )
-            u = np.random.uniform( 0.3, 0.9 )
+            u = np.random.uniform( 0.4, 0.8 )
             width = u * ( np.max( X, 0 ) - np.min( X, 0 ) ) * np.sqrt( self.num_dim )
 
+            index = np.where( np.abs( width ) < 1e-6 )
+            width[index[0]] = 1e-6
             params = np.append( np.log( width ), np.log( scale ) )
         else:
             # without ARD
