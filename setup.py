@@ -26,7 +26,6 @@ ext_mods = [Extension( name ='combo.misc._src.traceAB',
                        include_dirs=[numpy.get_include()],
                        extra_compile_args = compile_flags )
             ]
-
 setup(
     name = 'combo',
     version = '0.1.2',
