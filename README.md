@@ -32,8 +32,7 @@ automatic hyperparameter tuning. Technical features are described in [our docume
 
 
 # Usage
-After installation, you can launch the test suite from 'examples/grain_bound/tutorial.ipynb'.
+After installation, you can launch the test suite from ['examples/grain_bound/tutorial.ipynb'](examples/grain_bound/tutorial.ipynb).
 
-
-## Licence
+## License
 This package is distributed under the MIT License.
