@@ -98,8 +98,9 @@ class multi_probe_policy( policy ):
                 self.train_Psi = blm.lik.get_basis( self.train_X )
                 self.test_Psi = blm.lik.get_basis( self.test_X )
             else:
+                N = self.train_X.shape[0]
                 for k in xrange(num_multi_probe):
-                    blm.update_stats()
+                    blm.update_stats(self.train_X[N-k-1,:], self.train_t[N-k-1], self.Psi[N-k-1, :] )
 
             action_list = np.zeros( num_multi_probe, dtype = int )
             blm.prepare( self.train_X, self.train_t, self.train_Psi )
