@@ -1,9 +1,9 @@
-import numpy as numpy
+import numpy as np
 
 class gauss:
     def __init__( self, linear, cov ):
         self.linear = linear
-        self.cov = cov        
+        self.cov = cov
         self.stats = ()
 
     def get_cov( self, N, params = None ):
@@ -29,3 +29,8 @@ class gauss:
 
     def set_bias( self, bias ):
         self.linear.set_bias( bias )
+
+    def sampling( self, fmean ):
+        num_data = fmean.shape[0]
+        eps = np.sqrt(self.cov.sigma2) * np.random.randn( num_data )
+        return fmean + eps

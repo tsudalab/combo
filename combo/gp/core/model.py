@@ -4,6 +4,7 @@ from ... import opt
 from .. import inf
 from ... import blm
 import learning
+import scipy
 #import scipy.optimize
 from prior import prior
 
@@ -113,6 +114,24 @@ class model:
             post_fcov = inf.exact.get_post_fcov( self, X, Z, params, diag )
 
         return post_fcov
+
+    def post_sampling( self, X, Z, params = None, N = 1 ):
+        if params is None:
+            params = np.copy( self.params )
+
+        fmean = self.get_post_fmean( X, Z, params = None )
+        fcov = self.get_post_fcov(X, Z, params = None, diag = False )
+        return np.random.multivariate_normal( fmean, fcov, N )
+
+    def predict_sampling( self, X, Z, params = None, N = 1 ):
+        if params is None:
+            params = np.copy( self.params )
+
+        ndata = Z.shape[0]
+        fmean = self.get_post_fmean( X, Z, params = None )
+        fcov = self.get_post_fcov( X, Z, params = None, diag = False ) + self.lik.get_cov( ndata )
+
+        return np.random.multivariate_normal( fmean, fcov, N )
 
     def print_params( self ):
         print ('\n')

@@ -52,3 +52,8 @@ class gauss:
 
     def get_cand_params( self, t ):
         return np.log( np.std(t) / 10 )
+
+    def sampling( self, fmean ):
+        num_data = fmean.shape[0]
+        eps = self.std * np.random.randn( num_data )
+        return fmean + eps

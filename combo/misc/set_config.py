@@ -49,7 +49,10 @@ class search:
     def __init__( self ):
         self.dir_name = 'res'
         self.is_disp = True
+        #self.is_multi_probe = False
         self.score = 'TS'
+        self.num_multi_probe = 10
+        self.multi_probe_num_sampling = 50
         self.max_search = 100
         self.num_rand_search = 20
         self.alpha = 1.0
@@ -57,6 +60,8 @@ class search:
     def load( self, config ):
         temp_dict = config._sections['search']
         self.is_disp = temp_dict.get( 'is_disp', True )
+        self.num_multi_probe = int(temp_dict.get( 'num_multi_probe', 10 ))
+        self.multi_probe_num_sampling = int(temp_dict.get( 'multi_probe_num_sampling', 50 ))
         self.dir_name = temp_dict.get( 'dir_name', 'res' )
         self.score = temp_dict.get( 'score', 'TS')
         self.max_search = int( temp_dict.get( 'max_search', 500 ) )
@@ -66,6 +71,8 @@ class search:
     def show( self ):
         print '( search )'
         print 'dir_name: ' + self.dir_name
+        print 'num_multi_probe: ', self.num_multi_probe
+        print 'multi_probe_num_sampling: ', self.multi_probe_num_sampling
         print 'score: ' + self.score
         print 'max_search:', self.max_search
         print 'num_rand_search: ', self.num_rand_search
