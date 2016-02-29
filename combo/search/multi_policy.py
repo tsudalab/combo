@@ -93,17 +93,18 @@ class multi_probe_policy( policy ):
                 blm = gp.export_blm( self.config.predict.num_basis )
                 self.train_Psi = blm.lik.get_basis( self.train_X )
                 self.test_Psi = blm.lik.get_basis( self.test_X )
+                blm.prepare( self.train_X, self.train_t, self.train_Psi  )
             elif n == 0:
                 blm = gp.export_blm( self.config.predict.num_basis )
                 self.train_Psi = blm.lik.get_basis( self.train_X )
                 self.test_Psi = blm.lik.get_basis( self.test_X )
+                blm.prepare( self.train_X, self.train_t, self.train_Psi  )
             else:
                 N = self.train_X.shape[0]
                 for k in xrange(num_multi_probe):
                     blm.update_stats(self.train_X[N-k-1,:], self.train_t[N-k-1], self.Psi[N-k-1, :] )
 
             action_list = np.zeros( num_multi_probe, dtype = int )
-            blm.prepare( self.train_X, self.train_t, self.train_Psi )
             curr_blm = copy.deepcopy( blm )
 
             curr_train_X = np.copy( self.train_X )
@@ -160,6 +161,7 @@ class multi_probe_policy( policy ):
             self.train_t = np.hstack( ( self.train_t, train_t ) )
             print '%02d-th multiple probe search' %(n)
             self.write( num_multi_probe, train_t, action_list )
+
 
     def get_score_blm( self, blm, score ):
         if score == 'PI':
