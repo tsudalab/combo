@@ -25,7 +25,7 @@ if __name__ == '__main__':
 
     X, t = load()
     X = combo.misc.centering( X )
-
+    
     mean = combo.gp.mean.const()
     cov = combo.gp.cov.gauss( X.shape[1], ard = False )
     lik = combo.gp.lik.gauss()
