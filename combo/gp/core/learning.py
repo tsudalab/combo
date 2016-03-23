@@ -3,7 +3,8 @@ import scipy.optimize
 import six
 
 class batch( object ):
-    ''' base class for batch learning '''
+    ''' basis class for batch learning
+    '''
     def __init__( self, gp, config ):
         self.gp = gp
         self.config = config

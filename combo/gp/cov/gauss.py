@@ -195,5 +195,5 @@ class gauss:
             n = np.random.randint(0,5)
             width = dist[ (2*n+ 1)*tmp ]
             scale = np.std(t)
-            params = np.append( np.log(width), np.log(scale) )
+            params = np.append( np.log(width + 1e-8), np.log(scale) )
         return params
