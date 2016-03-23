@@ -160,7 +160,7 @@ class gauss:
         return params
 
     def rand_expans( self, num_basis, params = None ):
-        ''' kernel expansion '''
+        ''' Kernel Expansion '''
         params, width, scale = self.prepare( params )
         scale2 = scale**2
         amp = np.sqrt( ( 2 * scale2 )/num_basis )

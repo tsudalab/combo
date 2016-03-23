@@ -9,18 +9,22 @@ class bayes_policy( policy ):
 
     def run( self, gp, timing = None, train_X = None, train_t = None, file_name = None ):
         self.set_init_train_data( train_X, train_t)
+
         print 'Start the random search .....\n'
         self.rand_search( self.config.search.num_rand_search )
         print 'Done.\n '
+
         print 'Start the bayes search ....\n'
         if self.config.predict.is_rand_expans:
             self.blm_search( gp, timing )
         else:
             self.gp_search(  gp, timing )
         print 'Done.\n '
+
         print 'Save...'
         self.save( file_name )
         print 'Done. \n '
+
 
     def blm_search( self, gp, timing = None ):
         timing = self.gen_timing( timing )
