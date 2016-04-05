@@ -4,3 +4,4 @@ import lik
 import inf
 
 from core import model
+from predictor import predictor

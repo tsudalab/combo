@@ -41,11 +41,15 @@ class model:
             pass
         return w_hat
 
-    def post_sampling( self, Xtest, Psi = None, alpha = 1.0):
+    def post_sampling( self, Xtest, Psi = None, N = 1, alpha = 1.0):
         if Psi is None:
             Psi = blm.lik.get_basis( Xtest )
-        w_hat = self.sampling(alpha = alpha)
+        w_hat = self.sampling( N = N, alpha = alpha)
         return Psi.dot( w_hat ) + self.lik.linear.bias
+
+    def predict_sampling( self, Xtest, Psi = None, N=1 ):
+        fmean = self.post_sampling(Xtest, Psi, N=N)
+        return fmean + np.sqrt( self.lik.cov.sigma2 ) * np.random.randn( Xtest.shape[0], N )
 
     def get_post_fcov( self, X, Psi = None, diag = True ):
         if self.method is 'exact':

@@ -40,7 +40,6 @@ class policy( object ):
             t = output[0]; x = output[1]
         else:
             t = output; x = None
-
         return t, x
 
     def rand_search( self, num_rand_search ):
