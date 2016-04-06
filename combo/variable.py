@@ -21,10 +21,9 @@ class variable(object):
         if new_z is not None:
             self.add_z(new_z)
 
-
     def get_mini_batch(self, mini_batch_size):
-        index = np.random.permutation( xrange( self.X.shape[0] ) )
-        return self.X[index[0:mini_batch_size],:], self.t[index[0:mini_batch_size]]
+        index = np.random.permutation(xrange(self.X.shape[0]))
+        return self.X[index[0:mini_batch_size], :], self.t[index[0:mini_batch_size]]
 
     def split( self, N ):
         train_X, test_X = np.split( self.X, [ N ])
@@ -32,6 +31,13 @@ class variable(object):
         training = variable( X = train_X, t = train_t  )
         test = variable( X = test_X, t = test_t )
         return training, test
+
+    def get_subset(self, index):
+        temp_X = self.X[index, :] if self.X is not None else None
+        temp_t = self.t[index] if self.t is not None else None
+        temp_Z = self.Z[index, :] if self.Z is not None else None
+
+        return variable(X=temp_X, t=temp_t, Z=temp_Z)
 
     def random_split( self, N ):
         index = np.random.permutation( xrange(self.X.shape[0]) )
