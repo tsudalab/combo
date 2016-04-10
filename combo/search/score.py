@@ -1,9 +1,10 @@
 import numpy as np
 import scipy.stats
 
-def EI( predictor, training, test, fmax = None ):
-    fmean = predictor.get_post_fmean( training, test )
-    fcov = predictor.get_post_fcov( training, test )
+
+def EI(predictor, training, test, fmax=None):
+    fmean = predictor.get_post_fmean(training, test)
+    fcov = predictor.get_post_fcov(training, test)
     fstd = np.sqrt(fcov)
 
     if fmax is None:

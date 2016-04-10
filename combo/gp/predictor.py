@@ -10,10 +10,10 @@ class predictor( base_predictor ):
     def __init__( self, config, model = None ):
         super( predictor, self ).__init__( config, model )
 
-    def fit( self, training ):
+    def fit(self, training, num_basis=None):
         if self.model.prior.cov.num_dim is None:
             self.model.prior.cov.num_dim = training.X.shape[1]
-        self.model.fit( training.X, training.t, self.config )
+        self.model.fit(training.X, training.t, self.config)
         self.delete_stats()
 
     def get_basis( self, *args, **kwds ):
