@@ -1,5 +1,6 @@
 import numpy as np
 import copy
+import combo.misc
 from results import history
 from .. import utility
 from ...variable import variable
@@ -11,13 +12,13 @@ MAX_SEACH = int(20000)
 
 
 class policy:
-    def __init__(self, test_X, config):
+    def __init__(self, test_X, config=None):
         self.predictor = None
         self.training = variable()
         self.test = self._set_test(test_X)
         self.actions = np.arange(0, self.test.X.shape[0])
         self.history = history()
-        self.config = config
+        self.config = self._set_config(config)
 
     def set_seed(self, seed):
         self.seed = seed
@@ -238,3 +239,8 @@ class policy:
             raise TypeError('The type of test_X must \
                              take ndarray or combo.variable')
         return test
+
+    def _set_config(self, config=None):
+        if config is None:
+            config = combo.misc.set_config()
+        return config

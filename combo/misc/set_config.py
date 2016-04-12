@@ -3,15 +3,10 @@ import ConfigParser
 
 
 class set_config:
-    def __init__(self, search_config=None,
-                 predict_config=None, learning_config=None):
+    def __init__(self, search_config=None, learning_config=None):
         if search_config is None:
             search_config = search()
         self.search = search_config
-
-        if predict_config is None:
-            predict_config = predict()
-        self.predict = predict_config
 
         if learning_config is None:
             learning_config = adam()
@@ -19,7 +14,6 @@ class set_config:
 
     def show(self):
         self.search.show()
-        self.predict.show()
         self.learning.show()
 
     def load(self, file_name='config.ini'):
@@ -29,10 +23,6 @@ class set_config:
         search_config = search()
         self.search = search_config
         self.search.load(config)
-
-        predict_config = predict()
-        self.predict = predict_config
-        self.predict.load(config)
 
         temp_dict = config._sections['learning']
         method = temp_dict.get('method', 'adam')
@@ -63,20 +53,6 @@ class search:
         print '(search)'
         print 'multi_probe_num_sampling: ', self.multi_probe_num_sampling
         print 'alpha: ', self.alpha
-        print '\n'
-
-
-class predict:
-    def __init__(self):
-        self.is_rand_expans = False
-
-    def load(self, config):
-        temp_dict = config._sections['predict']
-        self.is_rand_expans = boolean(temp_dict.get('is_rand_expans', False))
-
-    def show(self):
-        print '( predict )'
-        print 'is_rand_expans: ', self.is_rand_expans
         print '\n'
 
 
