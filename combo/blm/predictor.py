@@ -1,5 +1,3 @@
-import numpy as np
-import core
 from ..predictor import base_predictor
 
 
@@ -50,7 +48,7 @@ class predictor(base_predictor):
     def get_predict_samples(self, training, test, N=1):
         if self.blm.stats is None:
             self.prepare(training)
-        return self.blm.predict_sampling(test.X, Psi=test.Z, N=N)
+        return self.blm.predict_sampling(test.X, Psi=test.Z, N=N).transpose()
 
     def update(self, training, test):
         if self.model.stats is None:
