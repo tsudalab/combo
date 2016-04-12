@@ -4,7 +4,7 @@ from results import history
 import util
 from ...variable import variable
 from ..call_simulator import call_simulator
-#import combo.search.score as score
+import combo.search.score
 MAX_SEACH = int(20000)
 
 
@@ -32,6 +32,7 @@ class policy:
             Z = self.predictor.get_basis(X) \
                 if self.predictor is not None else None
 
+        self.new_data = variable(X, t, Z)
         self.history.write(t, action)
         self.training.add(X=X, t=t, Z=Z)
 
@@ -87,10 +88,14 @@ class policy:
             if util.is_learning(n, interval):
                 predictor.fit(training, self.config, num_rand_basis)
                 self.test.Z = predictor.get_basis(self.test.X)
-                self.train.Z = predictor.get_basis(self.train.X)
-                self.prepare(new_data)
+                self.training.Z = predictor.get_basis(self.training.X)
+                predictor.prepare(self.training)
+            else:
+                self.prepare(self.training, self.new_data)
 
-            action = self.get_action(score, N, alpha=self.config.search.alpha)
+            K = self.config.search.num_sampling
+            alpha = self.config.search.alpha
+            action = self.get_actions(self, score, N, K, alpha=alpha)
 
             if simulator is None:
                 return action
@@ -104,6 +109,64 @@ class policy:
 
         return copy.deepcopy(self.history)
 
+    def get_score(self, mode, predictor=None, training=None, alpha=1):
+        self._set_training(training)
+        self._set_predictor(predictor)
+        actions = self.actions
+
+        test = self.test.get_subset(actions)
+        if mode == 'EI':
+            f = combo.search.score.EI(predictor, training, test)
+        elif mode == 'PI':
+            f = combo.search.score.PI(predictor, training, test)
+        elif mode == 'TS':
+            f = combo.search.score.TS(predictor, training, test, alpha)
+        else:
+            raise NotImplementedError('mode must be EI, PI or TS.')
+        return f
+
+    def get_marginal_score(self, mode, chosed_actions, N):
+        M = util.length_vector(chosed_actions)
+        f = np.zeros((N, M))
+        new_test = self.test.get_subset(chosed_actions)
+        virtual_t = self.predictor(self.training, new_test, N)
+
+        for n in xrange(N):
+            predictor = copy.deepcopy(self.predictor)
+            virtual_train = new_test
+            virtual_train.t = virtual_t[n, :]
+
+            if virtual_train.Z is None:
+                train = self.training.add(virtual_train.X, virtual_train.t)
+            else:
+                train = self.training.add(virtual_train.X,
+                                          virtual_train.t, virtual_train.Z)
+
+            try:
+                predictor.update(train, virtual_train)
+            except:
+                predictor.prepare(train)
+
+            f[n, :] = self.get_score(mode, predictor, train)
+        return f
+
+    def get_actions(self, mode, N, K):
+        f = self.get_score(mode, self.predictor, self.training)
+        temp = np.argmax(f)
+        action = self.actions[temp]
+        self.delete_actions(temp)
+
+        chosed_actions = np.zeros(N)
+        chosed_actions[0] = action
+
+        for n in xrange(1, N):
+            f = self.get_marginal_score(mode, chosed_actions[0:n], K)
+            temp = np.argmax(np.mean(f, 0))
+            chosed_actions[n] = self.actions[temp]
+            self.delete_actions(temp)
+
+        return chosed_actions
+
     def prepare(self, new_data=None):
         if new_data is None:
             self.predictor.prepare(self.training)
@@ -112,12 +175,8 @@ class policy:
         else:
             try:
                 self.predictor.update(self.training, new_data)
-                self.training.add(X=new_data.X, t=new_data.t, Z=new_data.Z)
             except:
-                self.training.add(X=new_data.X, t=new_data.t, Z=new_data.Z)
                 self.predictor.prepare(self.training)
-
-
 
     def get_random_action(self, N):
         random_index = np.random.permutation(xrange(self.actions.shape[0]))
