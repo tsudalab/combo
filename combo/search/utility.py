@@ -6,8 +6,9 @@ def show_search_results(history, N):
     index = np.argmax(history.fx[0:n])
 
     if N == 1:
-        print '%04d-th step: f(x) = %f (action=%d)' % (n, history.fx[n-1])
-        print 'current best f(x) = %f (best action = %d) \n' \
+        print '%04d-th step: f(x) = %f (action=%d)' \
+            % (n, history.fx[n-1], history.chosed_actions[n-1])
+        print '   current best f(x) = %f (best action=%d) \n' \
             % (history.fx[index], history.chosed_actions[index])
     else:
         print 'current best f(x) = %f (best action = %d) ' \
