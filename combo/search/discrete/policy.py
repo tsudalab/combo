@@ -1,7 +1,7 @@
 import numpy as np
 import copy
 from results import history
-import util
+from .. import utility
 from ...variable import variable
 from ..call_simulator import call_simulator
 from ...gp import predictor as gp_predictor
@@ -13,8 +13,8 @@ MAX_SEACH = int(20000)
 class policy:
     def __init__(self, test_X, config):
         self.predictor = None
-        self.training = variable()   # training data
-        self.test = self._set_test(test_X)  # all candidates
+        self.training = variable()
+        self.test = self._set_test(test_X)
         self.actions = np.arange(0, self.test.X.shape[0])
         self.history = history()
         self.config = config
@@ -49,12 +49,12 @@ class policy:
                 be smaller than the length of candidates')
 
         if is_disp:
-            util.show_interactive_mode(simulator, self.history)
+            utility.show_interactive_mode(simulator, self.history)
 
         for n in xrange(0, max_num_probes):
 
             if is_disp and N > 1:
-                util.show_start_message_multi_search(self.history.num_runs)
+                utility.show_start_message_multi_search(self.history.num_runs)
 
             action = self.get_random_action(N)
 
@@ -66,7 +66,7 @@ class policy:
             self.write(action, t, X)
 
             if is_disp:
-                util.show_search_results(self.history, N)
+                utility.show_search_results(self.history, N)
 
         return copy.deepcopy(self.history)
 
@@ -89,7 +89,7 @@ class policy:
 
         for n in xrange(max_num_probes):
 
-            if util.is_learning(n, interval):
+            if utility.is_learning(n, interval):
                 self.predictor.fit(self.training, num_rand_basis)
                 self.test.Z = self.predictor.get_basis(self.test.X)
                 self.training.Z = self.predictor.get_basis(self.training.X)
@@ -101,7 +101,8 @@ class policy:
                     self.predictor.prepare(self.training)
 
             if num_search_each_probe != 1:
-                util.show_start_message_multi_search(self.history.num_runs, score)
+                utility.show_start_message_multi_search(self.history.num_runs,
+                                                        score)
 
             K = self.config.search.multi_probe_num_sampling
             alpha = self.config.search.alpha
@@ -115,7 +116,7 @@ class policy:
             self.write(action, t, X)
 
             if is_disp:
-                util.show_search_results(self.history, N)
+                utility.show_search_results(self.history, N)
 
         return copy.deepcopy(self.history)
 
@@ -138,7 +139,8 @@ class policy:
     def get_marginal_score(self, mode, chosed_actions, N, alpha):
         f = np.zeros((N, len(self.actions)))
         new_test = self.test.get_subset(chosed_actions)
-        virtual_t = self.predictor.get_predict_samples(self.training, new_test, N)
+        virtual_t \
+            = self.predictor.get_predict_samples(self.training, new_test, N)
 
         for n in xrange(N):
             predictor = copy.deepcopy(self.predictor)
