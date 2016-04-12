@@ -1,6 +1,7 @@
 import numpy as np
 from .. import inf
 
+
 class model:
     ''' bayesian linear model '''
     def __init__( self, lik, prior, options = {} ):
