@@ -88,6 +88,7 @@ class policy:
         N = int(num_search_each_probe)
 
         for n in xrange(max_num_probes):
+
             if util.is_learning(n, interval):
                 self.predictor.fit(self.training, num_rand_basis)
                 self.test.Z = self.predictor.get_basis(self.test.X)
@@ -98,6 +99,9 @@ class policy:
                     self.predictor.update(self.training, self.new_data)
                 except:
                     self.predictor.prepare(self.training)
+
+            if num_search_each_probe != 1:
+                util.show_start_message_multi_search(self.history.num_runs, score)
 
             K = self.config.search.multi_probe_num_sampling
             alpha = self.config.search.alpha
@@ -132,21 +136,20 @@ class policy:
         return f
 
     def get_marginal_score(self, mode, chosed_actions, N, alpha):
-        M = util.length_vector(chosed_actions)
-        f = np.zeros((N, M))
+        f = np.zeros((N, len(self.actions)))
         new_test = self.test.get_subset(chosed_actions)
-        virtual_t = self.predictor(self.training, new_test, N)
+        virtual_t = self.predictor.get_predict_samples(self.training, new_test, N)
 
         for n in xrange(N):
             predictor = copy.deepcopy(self.predictor)
+            train = copy.deepcopy(self.training)
             virtual_train = new_test
             virtual_train.t = virtual_t[n, :]
 
             if virtual_train.Z is None:
-                train = self.training.add(virtual_train.X, virtual_train.t)
+                train.add(virtual_train.X, virtual_train.t)
             else:
-                train = self.training.add(virtual_train.X,
-                                          virtual_train.t, virtual_train.Z)
+                train.add(virtual_train.X, virtual_train.t, virtual_train.Z)
 
             try:
                 predictor.update(train, virtual_train)
