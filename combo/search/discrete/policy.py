@@ -4,6 +4,8 @@ from results import history
 import util
 from ...variable import variable
 from ..call_simulator import call_simulator
+from ...gp import predictor as gp_predictor
+from ...blm import predictor as blm_predictor
 import combo.search.score
 MAX_SEACH = int(20000)
 
@@ -15,6 +17,7 @@ class policy:
         self.test = self._set_test(test_X)  # all candidates
         self.actions = np.arange(0, self.test.X.shape[0])
         self.history = history()
+        self.config = config
 
     def set_seed(self, seed):
         self.seed = seed
@@ -67,7 +70,7 @@ class policy:
 
         return copy.deepcopy(self.history)
 
-    def bayes_search(self, training, max_num_probes=None,
+    def bayes_search(self, training=None, max_num_probes=None,
                      num_search_each_probe=1,
                      predictor=None, is_disp=True,
                      simulator=None, score='TS', interval=0,
@@ -86,16 +89,19 @@ class policy:
 
         for n in xrange(max_num_probes):
             if util.is_learning(n, interval):
-                predictor.fit(training, self.config, num_rand_basis)
-                self.test.Z = predictor.get_basis(self.test.X)
-                self.training.Z = predictor.get_basis(self.training.X)
-                predictor.prepare(self.training)
+                self.predictor.fit(self.training, num_rand_basis)
+                self.test.Z = self.predictor.get_basis(self.test.X)
+                self.training.Z = self.predictor.get_basis(self.training.X)
+                self.predictor.prepare(self.training)
             else:
-                self.prepare(self.training, self.new_data)
+                try:
+                    self.predictor.update(self.training, self.new_data)
+                except:
+                    self.predictor.prepare(self.training)
 
-            K = self.config.search.num_sampling
+            K = self.config.search.multi_probe_num_sampling
             alpha = self.config.search.alpha
-            action = self.get_actions(self, score, N, K, alpha=alpha)
+            action = self.get_actions(score, N, K, alpha)
 
             if simulator is None:
                 return action
@@ -125,7 +131,7 @@ class policy:
             raise NotImplementedError('mode must be EI, PI or TS.')
         return f
 
-    def get_marginal_score(self, mode, chosed_actions, N):
+    def get_marginal_score(self, mode, chosed_actions, N, alpha):
         M = util.length_vector(chosed_actions)
         f = np.zeros((N, M))
         new_test = self.test.get_subset(chosed_actions)
@@ -150,33 +156,22 @@ class policy:
             f[n, :] = self.get_score(mode, predictor, train)
         return f
 
-    def get_actions(self, mode, N, K):
-        f = self.get_score(mode, self.predictor, self.training)
+    def get_actions(self, mode, N, K, alpha):
+        f = self.get_score(mode, self.predictor, self.training, alpha)
         temp = np.argmax(f)
         action = self.actions[temp]
-        self.delete_actions(temp)
+        self.actions = self.delete_actions(temp)
 
-        chosed_actions = np.zeros(N)
+        chosed_actions = np.zeros(N, dtype=int)
         chosed_actions[0] = action
 
         for n in xrange(1, N):
-            f = self.get_marginal_score(mode, chosed_actions[0:n], K)
+            f = self.get_marginal_score(mode, chosed_actions[0:n], K, alpha)
             temp = np.argmax(np.mean(f, 0))
             chosed_actions[n] = self.actions[temp]
-            self.delete_actions(temp)
+            self.actions = self.delete_actions(temp)
 
         return chosed_actions
-
-    def prepare(self, new_data=None):
-        if new_data is None:
-            self.predictor.prepare(self.training)
-            self.training.Z = self.predictor.get_basis(self.training.X)
-            self.test.Z = self.predictor.get_basis(self.test.X)
-        else:
-            try:
-                self.predictor.update(self.training, new_data)
-            except:
-                self.predictor.prepare(self.training)
 
     def get_random_action(self, N):
         random_index = np.random.permutation(xrange(self.actions.shape[0]))
@@ -208,6 +203,16 @@ class policy:
         if predictor is None:
             predictor = self.predictor
         return predictor
+
+    def _init_predictor(self, is_rand_expans, predictor=None):
+        self.predictor = self._set_predictor(predictor)
+        if self.predictor is None:
+            if is_rand_expans:
+                self.predictor = blm_predictor(self.config)
+            else:
+                self.predictor = gp_predictor(self.config)
+
+        return self.predictor
 
     def _set_training(self, training=None):
         if training is None:

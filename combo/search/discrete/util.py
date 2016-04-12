@@ -45,9 +45,10 @@ def length_vector(t):
     return N
 
 
-def get_list_learn_timing(max_num_probe, interval):
-    if interval > 0:
-        timing = xrange(0, interval, max_num_probe)
+def is_learning(n, interval):
+    if interval == 0:
+        return True if n == 0 else False
+    elif interval > 0:
+        return True if np.mod(n, interval) == 0 else False
     else:
-        timing = None
-    return timing
+        return False
