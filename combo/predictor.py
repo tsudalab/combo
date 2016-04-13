@@ -42,11 +42,11 @@ class base_predictor( object ):
     def update( self,*args, **kwds ):
         raise NotImplementedError
 
-    def save( self, file_name ):
-        with open(file_name, 'w' ) as f:
+    def save(self, file_name):
+        with open(file_name, 'w') as f:
             pickle.dump(self.__dict__, f, 2)
 
-    def load( self, file_name ):
+    def load(self, file_name):
         with open(file_name) as f:
             tmp_dict = pickle.load(f)
-        self.__dict__.update(tmp_dict)
+            self.update(tmp_dict)

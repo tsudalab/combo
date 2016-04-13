@@ -1,10 +1,12 @@
 import numpy as np
 import copy
 import combo.misc
+import cPickle as pickle
 from results import history
 from .. import utility
 from ...variable import variable
 from ..call_simulator import call_simulator
+from ... import predictor
 from ...gp import predictor as gp_predictor
 from ...blm import predictor as blm_predictor
 import combo.search.score
@@ -84,7 +86,11 @@ class policy:
         is_rand_expans = False if num_rand_basis == 0 else True
 
         self.training = self._set_training(training)
-        self.predictor = self._init_predictor(is_rand_expans)
+
+        if predictor is None:
+            self.predictor = self._init_predictor(is_rand_expans)
+        else:
+            self.predictor = predictor
 
         N = int(num_search_each_probe)
 
@@ -186,24 +192,30 @@ class policy:
         self.actions = self.delete_actions(index)
         return action
 
-    def load(self, filename, training=None, predictor=None):
-        self.history.load(filename)
+    def load(self, file_history, file_training=None, file_predictor=None):
+        self.history.load(file_history)
 
-        if training is None:
+        if file_training is None:
             N = self.history.total_num_search
             X = self.test.X[self.history.chosed_actions[0:N], :]
             t = self.history.fx[0:N]
-            self.training = training = variable(X=X, t=t)
+            self.training = variable(X=X, t=t)
         else:
-            self.training = training
+            self.training = variable()
+            self.training.load(file_training)
 
-        self.predictor = predictor
+        if file_predictor is not None:
+            with open(file_predictor) as f:
+                self.predictor = pickle.load(f)
 
     def export_predictor(self):
         return self.predictor
 
     def export_training(self):
         return self.training
+
+    def export_history(self):
+        return self.history
 
     def _set_predictor(self, predictor=None):
         if predictor is None:

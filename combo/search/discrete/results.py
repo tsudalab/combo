@@ -1,5 +1,5 @@
 import numpy as np
-import util
+from .. import utility
 MAX_SEARCH = int(30000)
 
 
@@ -12,7 +12,7 @@ class history:
         self.terminal_num_run = np.zeros(MAX_SEARCH, dtype=int)
 
     def write(self, t, action):
-        N = util.length_vector(t)
+        N = utility.length_vector(t)
         st = self.total_num_search
         en = st + N
 
