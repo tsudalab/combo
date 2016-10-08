@@ -1,6 +1,6 @@
 import numpy as np
-import cPickle as pickle
-import gp
+import pickle
+from . import gp
 
 class base_predictor( object ):
     def __init__( self, config, model = None ):
@@ -43,10 +43,10 @@ class base_predictor( object ):
         raise NotImplementedError
 
     def save(self, file_name):
-        with open(file_name, 'w') as f:
+        with open(file_name, 'wb') as f:
             pickle.dump(self.__dict__, f, 2)
 
     def load(self, file_name):
-        with open(file_name) as f:
+        with open(file_name, 'rb') as f:
             tmp_dict = pickle.load(f)
             self.update(tmp_dict)

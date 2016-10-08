@@ -25,7 +25,7 @@ class adam:
 
     def run( self, *args, **kwargs ):
         params = self.params
-        for epoch in xrange( self.max_epoch ):
+        for epoch in range( self.max_epoch ):
             update  = self.update( params, *args, **kwargs )
             params += update
 

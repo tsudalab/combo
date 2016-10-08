@@ -25,7 +25,7 @@ class history:
     def export_sequence_best_fx(self):
         best_fx = np.zeros(self.num_runs)
         best_actions = np.zeros(self.num_runs)
-        for n in xrange(self.num_runs):
+        for n in range(self.num_runs):
             index = np.argmax(self.fx[0:self.terminal_num_run[n]])
             best_actions[n] = self.chosed_actions[index]
             best_fx[n] = self.fx[index]
@@ -38,7 +38,7 @@ class history:
         best_fx[0] = self.fx[0]
         best_actions[0] = self.chosed_actions[0]
 
-        for n in xrange(1, self.total_num_search):
+        for n in range(1, self.total_num_search):
             if best_fx[n-1] < self.fx[n]:
                 best_fx[n] = self.fx[n]
                 best_actions[n] = self.chosed_actions[n]

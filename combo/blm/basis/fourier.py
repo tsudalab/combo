@@ -26,9 +26,9 @@ class fourier:
         self.params = params
 
     def show( self ):
-        print 'W = ', self.params[0]
-        print 'b = ', self.params[1]
-        print 'alpha = ', self.params[2]
+        print('W = ', self.params[0])
+        print('b = ', self.params[1])
+        print('alpha = ', self.params[2])
 
     def _check_params( self, params ):
         if not isinstance( params, tuple):
