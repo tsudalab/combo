@@ -85,6 +85,7 @@ class online( object ):
         print('Start the hyper parameter learning ...')
         params = self.one_run( params, X, t )
         print('Done\n')
+        self.gp.prior.cov.print_params()
 
         return params
 
@@ -132,7 +133,7 @@ class online( object ):
         marlik = self.gp.eval_marlik( params, eval_X, eval_t )
         if num_epoch is not None:
             print(num_epoch, end="")
-            print('-th epoch', end="")
+            print('-th epoch, ', end="")
 
         print('marginal likelihood', marlik)
 
