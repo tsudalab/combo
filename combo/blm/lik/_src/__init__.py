@@ -1,1 +1,1 @@
-from cov import cov
+from .cov import cov

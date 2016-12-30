@@ -1,2 +1,2 @@
-from policy import policy
-from results import history
+from .policy import policy
+from .results import history

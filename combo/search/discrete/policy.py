@@ -1,8 +1,8 @@
 import numpy as np
 import copy
 import combo.misc
-import cPickle as pickle
-from results import history
+import pickle
+from .results import history
 from .. import utility
 from ...variable import variable
 from ..call_simulator import call_simulator
@@ -54,7 +54,7 @@ class policy:
         if is_disp:
             utility.show_interactive_mode(simulator, self.history)
 
-        for n in xrange(0, max_num_probes):
+        for n in range(0, max_num_probes):
 
             if is_disp and N > 1:
                 utility.show_start_message_multi_search(self.history.num_runs)
@@ -94,7 +94,7 @@ class policy:
 
         N = int(num_search_each_probe)
 
-        for n in xrange(max_num_probes):
+        for n in range(max_num_probes):
 
             if utility.is_learning(n, interval):
                 self.predictor.fit(self.training, num_rand_basis)
@@ -149,7 +149,7 @@ class policy:
         virtual_t \
             = self.predictor.get_predict_samples(self.training, new_test, N)
 
-        for n in xrange(N):
+        for n in range(N):
             predictor = copy.deepcopy(self.predictor)
             train = copy.deepcopy(self.training)
             virtual_train = new_test
@@ -177,7 +177,7 @@ class policy:
         chosed_actions = np.zeros(N, dtype=int)
         chosed_actions[0] = action
 
-        for n in xrange(1, N):
+        for n in range(1, N):
             f = self.get_marginal_score(mode, chosed_actions[0:n], K, alpha)
             temp = np.argmax(np.mean(f, 0))
             chosed_actions[n] = self.actions[temp]
@@ -186,7 +186,7 @@ class policy:
         return chosed_actions
 
     def get_random_action(self, N):
-        random_index = np.random.permutation(xrange(self.actions.shape[0]))
+        random_index = np.random.permutation(range(self.actions.shape[0]))
         index = random_index[0:N]
         action = self.actions[index]
         self.actions = self.delete_actions(index)
@@ -205,7 +205,7 @@ class policy:
             self.training.load(file_training)
 
         if file_predictor is not None:
-            with open(file_predictor) as f:
+            with open(file_predictor, 'rb') as f:
                 self.predictor = pickle.load(f)
 
     def export_predictor(self):

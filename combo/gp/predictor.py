@@ -1,8 +1,8 @@
 import numpy as np
-import cov
-import lik
-import mean
-import core
+from . import cov
+from . import lik
+from . import mean
+from . import core
 from ..predictor import base_predictor
 
 class predictor( base_predictor ):

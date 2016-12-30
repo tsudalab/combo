@@ -74,7 +74,7 @@ class predictor(base_predictor):
                 except:
                     self.blm.update_stats(test.X, test.t, psi=test.Z)
         else:
-            for n in xrange(N):
+            for n in range(N):
                 if test.Z is None:
                     self.blm.update_stats(test.X[n, :], test.t[n])
                 else:
