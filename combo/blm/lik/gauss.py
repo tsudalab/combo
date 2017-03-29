@@ -1,36 +1,37 @@
 import numpy as np
 
-class gauss:
-    def __init__( self, linear, cov ):
+
+class gauss(object):
+    def __init__(self, linear, cov):
         self.linear = linear
         self.cov = cov
         self.stats = ()
 
-    def get_cov( self, N, params = None ):
+    def get_cov(self, N, params=None):
         if params is None:
-            params = np.copy( self.cov.params )
+            params = np.copy(self.cov.params)
 
-        return self.cov.get_cov( N, params )
+        return self.cov.get_cov(N, params)
 
-    def get_prec( self, N, params = None ):
+    def get_prec(self, N, params=None):
         if params is None:
-            params = np.copy( self.cov.params )
+            params = np.copy(self.cov.params)
 
-        return self.cov.get_cov( N, params )
+        return self.cov.get_cov(N, params)
 
-    def get_basis( self, X ):
-        return self.linear.basis.get_basis( X )
+    def get_basis(self, X):
+        return self.linear.basis.get_basis(X)
 
-    def get_mean( self, X, Psi = None, params = None, bias = None ):
-        return self.linear.get_mean( X, Psi, params, bias )
+    def get_mean(self, X, Psi=None, params=None, bias=None):
+        return self.linear.get_mean(X, Psi, params, bias)
 
-    def set_params( self, params ):
-        self.linear.set_params( params )
+    def set_params(self, params):
+        self.linear.set_params(params)
 
-    def set_bias( self, bias ):
-        self.linear.set_bias( bias )
+    def set_bias(self, bias):
+        self.linear.set_bias(bias)
 
-    def sampling( self, fmean ):
+    def sampling(self, fmean):
         num_data = fmean.shape[0]
-        eps = np.sqrt(self.cov.sigma2) * np.random.randn( num_data )
+        eps = np.sqrt(self.cov.sigma2) * np.random.randn(num_data)
         return fmean + eps

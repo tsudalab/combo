@@ -1,8 +1,8 @@
 import numpy as np
-import configparser
+import configparser as ConfigParser
 
 
-class set_config:
+class set_config(object):
     def __init__(self, search_config=None, learning_config=None):
         if search_config is None:
             search_config = search()
@@ -90,7 +90,8 @@ class batch(learning):
     def show(self):
         super(batch, self).show()
         print('max_iter: ', self.max_iter)
-        print('max_iter_init_params_search: ', self.max_iter_init_params_search)
+        print('max_iter_init_params_search: ',
+              self.max_iter_init_params_search)
         print('batch_size: ', self.batch_size)
 
     def load(self, config):
@@ -113,8 +114,8 @@ class online(learning):
     def show(self):
         super(online, self).show()
         print('max_epoch: ', self.max_epoch)
-        print('max_epoch_init_params_search: ', \
-            self.max_epoch_init_params_search)
+        print('max_epoch_init_params_search: ',
+              self.max_epoch_init_params_search)
         print('batch_size: ', self.batch_size)
         print('eval_size: ', self.eval_size)
 

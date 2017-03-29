@@ -1,45 +1,47 @@
-import numpy as np
 import pickle
 from . import gp
 
-class base_predictor( object ):
-    def __init__( self, config, model = None ):
+
+class base_predictor(object):
+    def __init__(self, config, model=None):
         self.config = config
         self.model = model
         if self.model is None:
-            self.model = gp.core.model(cov = gp.cov.gauss( num_dim = None, ard = False ), mean = gp.mean.const(), lik = gp.lik.gauss())
+            self.model \
+                = gp.core.model(cov=gp.cov.gauss(num_dim=None, ard=False),
+                                mean=gp.mean.const(), lik=gp.lik.gauss())
 
-    def fit( self, *args, **kwds ):
+    def fit(self, *args, **kwds):
         raise NotImplementedError
 
-    def prepare( self, *args, **kwds ):
+    def prepare(self, *args, **kwds):
         raise NotImplementedError
 
-    def delete_stats( self, *args, **kwds ):
+    def delete_stats(self, *args, **kwds):
         raise NotImplementedError
 
-    def get_basis( self, *args, **kwds ):
+    def get_basis(self, *args, **kwds):
         raise NotImplementedError
 
-    def get_post_fmean( self, *args, **kwds ):
+    def get_post_fmean(self, *args, **kwds):
         raise NotImplementedError
 
-    def get_post_fcov( self, *args, **kwds ):
+    def get_post_fcov(self, *args, **kwds):
         raise NotImplementedError
 
-    def get_post_params( self,*args, **kwds ):
+    def get_post_params(self, *args, **kwds):
         raise NotImplementedError
 
-    def get_post_samples( self, *args, **kwds ):
+    def get_post_samples(self, *args, **kwds):
         raise NotImplementedError
 
-    def get_predict_samples( self, *args, **kwds ):
+    def get_predict_samples(self, *args, **kwds):
         raise NotImplementedError
 
-    def get_post_params_samples( self, *args, **kwds ):
+    def get_post_params_samples(self, *args, **kwds):
         raise NotImplementedError
 
-    def update( self,*args, **kwds ):
+    def update(self, *args, **kwds):
         raise NotImplementedError
 
     def save(self, file_name):

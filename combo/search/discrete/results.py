@@ -3,7 +3,7 @@ from .. import utility
 MAX_SEARCH = int(30000)
 
 
-class history:
+class history(object):
     def __init__(self):
         self.num_runs = int(0)
         self.total_num_search = int(0)

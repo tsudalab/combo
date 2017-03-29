@@ -6,14 +6,14 @@ from .results import history
 from .. import utility
 from ...variable import variable
 from ..call_simulator import call_simulator
-from ... import predictor
+# from ... import predictor
 from ...gp import predictor as gp_predictor
 from ...blm import predictor as blm_predictor
 import combo.search.score
 MAX_SEACH = int(20000)
 
 
-class policy:
+class policy(object):
     def __init__(self, test_X, config=None):
         self.predictor = None
         self.training = variable()

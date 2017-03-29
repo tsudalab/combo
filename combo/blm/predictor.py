@@ -70,7 +70,8 @@ class predictor(base_predictor):
             else:
                 try:
                     test.Z.shape[1]
-                    self.blm.update_stats(test.X[0, :], test.t, psi=test.Z[0, :])
+                    self.blm.update_stats(test.X[0, :], test.t,
+                                          psi=test.Z[0, :])
                 except:
                     self.blm.update_stats(test.X, test.t, psi=test.Z)
         else:
@@ -78,4 +79,5 @@ class predictor(base_predictor):
                 if test.Z is None:
                     self.blm.update_stats(test.X[n, :], test.t[n])
                 else:
-                    self.blm.update_stats(test.X[n, :], test.t[n], psi=test.Z[n, :])
+                    self.blm.update_stats(test.X[n, :], test.t[n],
+                                          psi=test.Z[n, :])
