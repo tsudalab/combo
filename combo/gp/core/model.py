@@ -60,7 +60,7 @@ class model:
     def eval_marlik(self, params, X, t, N=None):
         subX, subt = self.sub_sampling(X, t, N)
 
-        if self.inf is 'exact':
+        if self.inf == 'exact':
             marlik = inf.exact.eval_marlik(self, subX, subt, params=params)
         else:
             pass
@@ -70,7 +70,7 @@ class model:
     def get_grad_marlik(self, params, X, t, N=None):
         subX, subt = self.sub_sampling(X, t, N)
 
-        if self.inf is 'exact':
+        if self.inf == 'exact':
             grad_marlik = inf.exact.get_grad_marlik(self, subX, subt,
                                                     params=params)
 
@@ -91,7 +91,7 @@ class model:
         if params is None:
             params = np.copy(self.params)
 
-        if self.inf is 'exact':
+        if self.inf == 'exact':
             self.stats = inf.exact.prepare(self, X, t, params)
         else:
             pass
@@ -100,7 +100,7 @@ class model:
         if params is None:
             params = np.copy(self.params)
 
-        if self.inf is 'exact':
+        if self.inf == 'exact':
             post_fmu = inf.exact.get_post_fmean(self, X, Z, params)
 
         return post_fmu
@@ -109,7 +109,7 @@ class model:
         if params is None:
             params = np.copy(self.params)
 
-        if self.inf is 'exact':
+        if self.inf == 'exact':
             post_fcov = inf.exact.get_post_fcov(self, X, Z, params, diag)
 
         return post_fcov
