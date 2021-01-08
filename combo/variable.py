@@ -26,15 +26,15 @@ class variable(object):
 
     def delete_X(self, num_row):
         if self.X is not None:
-            np.delete(self.X, num_row, 0)
+            self.X = np.delete(self.X, num_row, 0)
 
     def delete_t(self, num_row):
         if self.t is not None:
-            np.delete(self.t, num_row)
+            self.t = np.delete(self.t, num_row)
 
     def delete_Z(self, num_row):
         if self.Z is not None:
-            np.delete(self.Z, num_row, 0)
+            self.Z = np.delete(self.Z, num_row, 0)
 
     def add_X(self, X=None):
         if X is not None:
@@ -64,7 +64,7 @@ class variable(object):
         np.savez_compressed(file_name, X=self.X, t=self.t, Z=self.Z)
 
     def load(self, file_name):
-        data = np.load(file_name)
+        data = np.load(file_name, allow_pickle=True)
         self.X = data['X']
         self.t = data['t']
         self.Z = data['Z']
